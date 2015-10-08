@@ -2,41 +2,41 @@ package br.com.rednit.rednit.model;
 
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import br.com.rednit.rednit.model.User;
-
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Account<TAccount extends Account<? super TAccount>> {
-	
-	private int id;
-	
-	private User user;
-	
-	private Set<Friend<TAccount>> friends;
 
-	@Id
-    @GeneratedValue(generator="increment")
-    @GenericGenerator(name="increment", strategy = "increment")
-	public int getId() {
-		return id;
-	}
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
 
-	@ManyToOne
-	public User getUser() {
-		return user;
-	}
+    @ManyToOne
+    private User user;
 
-	@OneToMany(mappedBy = "friend1")
-	@OneToMany()
-	public Set<Friend<TAccount>> getFriends() {
-		return friends;
-	}
-	
+    @ManyToMany
+    private Set<TAccount> myFriends;
+
+    @ManyToMany(mappedBy = "myFriends")
+    private Set<TAccount> friendsOfMe;
+
+    public int getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Set<TAccount> getMyFriends() {
+        return myFriends;
+    }
+
+    public Set<TAccount> getFriendsOfMe() {
+        return friendsOfMe;
+    }
+
 }

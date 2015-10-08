@@ -1,16 +1,22 @@
 package br.com.rednit.rednit.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.time.Instant;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class Like {
-	
+
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int id;
-	
+
+    @ManyToOne
 	private FacebookAccount account;
-	
+
+    @ManyToOne
 	private Page page;
 	
 	private Instant likeInstant;

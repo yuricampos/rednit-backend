@@ -1,14 +1,18 @@
 package br.com.rednit.rednit.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import java.util.Set;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"facebookId"})})
 public class FacebookAccount extends Account<FacebookAccount> {
-	
-	private String facebookId;
-	
+
+    private String facebookId;
+
+	@OneToMany(mappedBy = "account")
 	private Set<Like> likes;
 
 	public String getFacebookId() {
